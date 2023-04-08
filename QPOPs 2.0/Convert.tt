@@ -1,0 +1,67 @@
+﻿<#@ template language="C#" #>
+<#@ output extension=".cs" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ assembly name="System.Core" #>
+<#
+	var typeInfo = new[]
+	{
+		new { Type = typeof(byte), Size = sizeof(byte) },
+		new { Type = typeof(sbyte), Size = sizeof(sbyte) },
+
+		new { Type = typeof(char), Size = sizeof(char) },
+
+		new { Type = typeof(short), Size = sizeof(short) },
+		new { Type = typeof(ushort), Size = sizeof(ushort) },
+
+		new { Type = typeof(int), Size = sizeof(int) },
+		new { Type = typeof(uint), Size = sizeof(uint) },
+
+		new { Type = typeof(long), Size = sizeof(long) },
+		new { Type = typeof(ulong), Size = sizeof(ulong) },
+
+		new { Type = typeof(double), Size = sizeof(double) },
+		new { Type = typeof(float), Size = sizeof(float) }
+	};
+
+	var acceptedTypes = string.Join(", ", typeInfo.Select(t => t.Type.Name));
+#>
+namespace JTfy
+{
+	public static class Convert
+	{
+		public static byte[] ToBytes<T>(T value) where T: notnull
+		{
+			var inputTypeName = typeof(T).Name;
+
+			return inputTypeName switch
+			{
+	<# foreach (var ti in typeInfo) { #>
+				"<#= ti.Type.Name #>" => <#= ti.Size == 1 ? "new[] { (byte)(object)value }" : $"BitConverter.GetBytes(({ti.Type.Name})(object)value)" #>,
+	<# } #>
+				_ => throw new NotSupportedException($"Input type <{inputTypeName}> is not one of: <#= acceptedTypes #>")
+			};
+		}
+
+		public static byte[] ToBytes<T>(T[] values) where T: notnull => values.SelectMany(ToBytes<T>).ToArray();
+
+		public static T FromBytes<T>(byte[] bytes)
+		{
+			if (bytes == null) throw new ArgumentNullException(nameof(bytes), $"{nameof(bytes)} is null");
+
+			var returnTypeName = typeof(T).Name;
+
+			return returnTypeName switch
+			{
+	<# foreach (var ti in typeInfo) { #>
+				"<#= ti.Type.Name #>" => bytes.Length == <#= ti.Size #> ?
+					(T)(object) <#= ti.Size == 1 ? "bytes[0]" : $"BitConverter.To{ti.Type.Name}(bytes, 0)" #> :
+					throw new ArgumentException($"{nameof(bytes)}.Length should be <#= ti.Size #> for {nameof(FromBytes)}<<#= ti.Type.Name #>>"),
+
+	<# } #>
+				_ => throw new NotSupportedException($"Return type <{returnTypeName}> is not one of: <#= acceptedTypes #>")
+			};
+		}
+	}
+}
