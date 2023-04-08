@@ -1,7 +1,8 @@
 # QPOPs2
 Command line tool to convert Process Designer XML files to JTs.
 
-USAGE:
+#USAGE:
+
 Create individually named JT files:
   QPOPs2 -i C:\input1.xml C:\input2.xml -o C:\output1.jt C:\output2.jt -s P:\ath\to\sys_root
 
