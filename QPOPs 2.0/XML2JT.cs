@@ -326,7 +326,7 @@ namespace QPOPs2
 
                 if (Path.GetExtension(fullFilePath).ToLower() == ".cojt")
                 {
-                    fullFilePath = Path.ChangeExtension(fullFilePath, ".jt");
+                    fullFilePath = Path.Combine(fullFilePath, Path.GetFileNameWithoutExtension(fullFilePath) + ".jt");
                 }
             }
 

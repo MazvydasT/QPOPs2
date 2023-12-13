@@ -4,7 +4,7 @@ using System.Collections.Concurrent;
 using System.Reflection;
 using System.Text;
 
-//args = new[] { "-s", @"P:\sys_root", "-i", "C:\\Users\\mtadara1\\Desktop\\VSM08-L460-25.5MY-01-LDI CHINA L460 EV EBA31 117kWh J250F J310R AWD 5DR LWB HSE 550PS Auto DPCK CODE 460EG BM CODE BG460.xml", @"C:\Users\mtadara1\Desktop\Line 1 (Paint Bars_Front First).xml" };
+//args = new[] { "-s", @"\\gal71836\hq\Manufacturing\AME\VME\sys_root", "-i", @"C:\Users\mtadara1\Desktop\New folder\915.xml", "-o", @"C:\Users\mtadara1\Desktop\New folder\915_2.jt", "-r", "False" };
 //args = new[] { "--help" };
 //args = new[] { "--version" };
 //args = new[] { "-p", "false", "-r", "false", "-i", "i.xml", "-s", "sys_root" };
