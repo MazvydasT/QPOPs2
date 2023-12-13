@@ -206,8 +206,14 @@ namespace QPOPs2
                 if (string.IsNullOrEmpty(tceRevision)) tceRevision = itemElement.Element("TCe_Revision")?.Value;
                 if (!string.IsNullOrEmpty(tceRevision)) item.Attributes.Add("TCe_Revision", tceRevision);
 
+                var comment = itemElement.Element("comment")?.Value;
+                if (!string.IsNullOrEmpty(comment)) item.Attributes.Add("Comment", comment);
+
+                var comment1 = itemElement.Element("Comment1")?.Value;
+                if (!string.IsNullOrEmpty(comment1)) item.Attributes.Add("Comment1", comment1);
+
                 var comment2 = itemElement.Element("Comment2")?.Value;
-                if (!string.IsNullOrEmpty(comment2)) item.Attributes.Add("Owner CDSID", comment2);
+                if (!string.IsNullOrEmpty(comment2)) item.Attributes.Add("Comment2", comment2);
 
                 activeInCurrentVersion = itemElement.Element("ActiveInCurrentVersion")?.Value ?? activeInCurrentVersion;
                 if (!string.IsNullOrEmpty(activeInCurrentVersion)) item.Attributes.Add("ActiveInCurrentVersion", activeInCurrentVersion);
