@@ -4,10 +4,12 @@ using System.Collections.Concurrent;
 using System.Reflection;
 using System.Text;
 
+#if DEBUG
 //args = new[] { "-s", @"\\gal71836\hq\Manufacturing\AME\VME\sys_root", "-i", @"C:\Users\mtadara1\Desktop\New folder\915.xml", "-o", @"C:\Users\mtadara1\Desktop\New folder\915_3.jt" };
 //args = new[] { "--help" };
 //args = new[] { "--version" };
 //args = new[] { "-p", "false", "-r", "false", "-i", "i.xml", "-s", "sys_root" };
+#endif
 
 var options = ArgumentParserHelpers.ParseArgs(args, Console.Error);
 
