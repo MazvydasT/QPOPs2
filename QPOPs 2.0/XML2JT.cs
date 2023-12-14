@@ -140,10 +140,10 @@ namespace QPOPs2
                 {
                     if (supportingObjects.TryGetValue(prototypeExternalId, out var prototypeElement))
                     {
-                        item.Title = GetTitle(
+                        /*item.Title = GetTitle(
                             prototypeElement.Element("catalogNumber")?.Value ?? string.Empty,
                             prototypeElement.Element("name")?.Value ?? string.Empty
-                        );
+                        );*/
 
                         var threeDRepExternalId = prototypeElement.Element("threeDRep")?.Value;
                         if (threeDRepExternalId != null && supportingObjects.TryGetValue(threeDRepExternalId, out var threeDRepElement))
