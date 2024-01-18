@@ -6,8 +6,8 @@
     <RootNamespace>QPOPs2</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-	<Version>2.2.0</Version>
-	<!--PublishAot>true</PublishAot-->
+	<Version>2.3.0</Version>
+	<PublishAot>False</PublishAot>
   </PropertyGroup>
 
   <ItemGroup>

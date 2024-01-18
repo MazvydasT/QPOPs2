@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Text;
 
 #if DEBUG
-//args = new[] { "-s", @"\\gal71836\hq\Manufacturing\AME\VME\sys_root", "-i", @"C:\Users\mtadara1\Desktop\New folder\915.xml", "-o", @"C:\Users\mtadara1\Desktop\New folder\915_3.jt" };
+//args = new[] { "-s", @"\\gal71836\hq\Manufacturing\AME\VME\sys_root", "-i", @"C:\Users\mtadara1\Desktop\02 Trim 2.xml", "-o", @"C:\Users\mtadara1\Desktop\TO_DELETE\02 Trim 2.jt", "-c", "true" };
 //args = new[] { "--help" };
 //args = new[] { "--version" };
 //args = new[] { "-p", "false", "-r", "false", "-i", "i.xml", "-s", "sys_root" };
@@ -18,7 +18,7 @@ if (options == null) return;
 Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
 var appName = "QPOPs";
-var version = "v" + (Assembly.GetEntryAssembly()?.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion ?? "0.0.0");
+var version = "v" + (Assembly.GetEntryAssembly()?.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion.Split('+')[0] ?? "0.0.0");
 
 var inputCount = options.Input.Count();
 

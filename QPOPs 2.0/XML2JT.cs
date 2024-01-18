@@ -237,8 +237,6 @@ namespace QPOPs2
                 {
                     if (!items.TryGetValue(partExternalId, out var partItem)) continue;
 
-                    if (!partItem.Parents.IsEmpty) continue;
-
                     items.TryRemove(partExternalId, out var _);
                 }
             });
@@ -258,7 +256,8 @@ namespace QPOPs2
                 ExternalId = $"{DateTime.UtcNow}-root",
                 Title = configuration.RootName,
                 FileIsPart = false,
-                Type = ContentType.Product
+                Type = ContentType.Product,
+                Attributes = configuration.AdditionalAttributes.ToDictionary((keyValue) => keyValue.Key, (keyValue) => (object)keyValue.Value)
             };
 
             rootItem.Children = items.Values.Where(item => item.Parents.IsEmpty).Select(item =>
@@ -270,33 +269,25 @@ namespace QPOPs2
                 return item;
             }).ToArray();
 
-            items.TryAdd(rootItem.ExternalId, rootItem);
+            return Item2JTNode(rootItem);
+        }
 
-            var jtNodesByItem = new ConcurrentDictionary<Item, JTNode>();
-
-            Parallel.ForEach(items.Values, item =>
+        private static JTNode Item2JTNode(Item item)
+        {
+            return new JTNode()
             {
-                var jtNode = new JTNode()
-                {
-                    Name = item.Title,
-                    TransformationMatrix = item.TransformationMatrix,
-                    ReferencedFile = item.FilePath,
-                    ReferencedFileIsPart = item.FileIsPart,
-                    Attributes = item.Attributes
-                };
+                Name = item.Title,
 
-                jtNodesByItem.TryAdd(item, jtNode);
-            });
+                TransformationMatrix = item.TransformationMatrix,
 
-            Parallel.ForEach(jtNodesByItem, itemJTNode =>
-            {
-                var item = itemJTNode.Key;
-                var jtNode = itemJTNode.Value;
+                Children = item.Children.Select(c => Item2JTNode(c)).ToList(),
 
-                jtNode.Children = item.Children.Select(childItem => jtNodesByItem[childItem]).ToList();
-            });
+                ReferencedFile = item.FilePath,
 
-            return jtNodesByItem[rootItem];
+                ReferencedFileIsPart = item.FileIsPart,
+
+                Attributes = item.Attributes
+            };
         }
 
         static string GetTitle(string number, string name)
